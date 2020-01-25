@@ -32,12 +32,6 @@ namespace TFTStats
             services.AddSingleton(new MongoAccessModel("TFTStats",Configuration.GetConnectionString("MongoConnectionString")));
             
         }
-        public class person
-        {
-            public string first {get;set;}
-            public string last {get;set;}
-        }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
