@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using TFTStats.Models;
 
 namespace TFTStats
 {
@@ -28,20 +29,7 @@ namespace TFTStats
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton(new MongroCrud("TFTStats"));
-            
-        }
-        public class MongroCrud
-        {
-            private IMongoDatabase db;
-            public MongroCrud(string database)
-            {
-                var client = new MongoClient("mongodb+srv://TristanM:<password>@cluster0-qkz5v.azure.mongodb.net/test?retryWrites=true&w=majority");
-                db = client.GetDatabase(database);
-                db.CreateCollection("Matches");
-                var collection = db.GetCollection<person>("Matches");
-                collection.InsertOne(new person{first = "Tristan",last = "Mueller"});
-            }
+            services.AddSingleton(new MongoAccessModel("TFTStats",Configuration.GetConnectionString("MongoConnectionString")));
             
         }
         public class person
