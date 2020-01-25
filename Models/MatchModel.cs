@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
@@ -72,10 +73,12 @@ namespace TFTStats.Models
 
     public class MatchFunction
     {
+        public string _leagueAPIKey { get; set; }
         public MongoAccessModel _mongoAccessModel { get; set; }
         public MatchFunction(MongoAccessModel mongoAccessModel)
         {
             _mongoAccessModel = mongoAccessModel;
+            _leagueAPIKey = "RGAPI-69929401-64de-44d0-882c-eaeb6b2c5d3c";
         }
         public CommandResult InsertMatch(Match match)
         {
@@ -101,6 +104,38 @@ namespace TFTStats.Models
             queryResult.result = _mongoAccessModel._MatchCollection.Find(filter).ToList();
             queryResult.isSuccess = true;
             return queryResult;
+        }
+        public CommandResult PopulateMatchCollection()
+        {
+            var CommandResult = new CommandResult();
+            try
+            {
+                var response = HttpRequestHelper.Get("https://na1.api.riotgames.com/tft/league/v1/challenger?api_key=" + _leagueAPIKey);
+                League challengerLeague = Newtonsoft.Json.JsonConvert.DeserializeObject<League>(response);
+                foreach (var summoner in challengerLeague.entries)
+                {
+                    response = HttpRequestHelper.Get("https://na1.api.riotgames.com/lol/summoner/v4/summoners/" +  summoner.summonerId + "?api_key=" + _leagueAPIKey);
+                    Summoner challengerSummoner = Newtonsoft.Json.JsonConvert.DeserializeObject<Summoner>(response);
+                    response = HttpRequestHelper.Get("https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/" + challengerSummoner.puuid + "/ids?count=20&api_key=" + _leagueAPIKey);
+                    List<string> challengerMatches = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(response);
+                    foreach (var match in challengerMatches)
+                    {
+                        response = HttpRequestHelper.Get("https://americas.api.riotgames.com/tft/match/v1/matches/" + match + "?api_key=" + _leagueAPIKey);
+                        Match challengerMatch = Newtonsoft.Json.JsonConvert.DeserializeObject<Match>(response);
+                        if(InsertMatch(challengerMatch).isSuccess == false)
+                        {
+                            
+                        }
+                    }
+                }
+                CommandResult.isSuccess = true;
+            }
+            catch(Exception ex)
+            {
+                CommandResult.message = ex.ToString();
+                CommandResult.isSuccess = false;
+            }
+            return CommandResult;
         }
     }
 }
