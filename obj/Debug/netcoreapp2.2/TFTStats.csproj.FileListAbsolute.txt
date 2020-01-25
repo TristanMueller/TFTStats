@@ -1,0 +1,14 @@
+C:\Users\muell\TFTStats\bin\Debug\netcoreapp2.2\TFTStats.deps.json
+C:\Users\muell\TFTStats\bin\Debug\netcoreapp2.2\TFTStats.runtimeconfig.json
+C:\Users\muell\TFTStats\bin\Debug\netcoreapp2.2\TFTStats.runtimeconfig.dev.json
+C:\Users\muell\TFTStats\bin\Debug\netcoreapp2.2\TFTStats.dll
+C:\Users\muell\TFTStats\bin\Debug\netcoreapp2.2\TFTStats.pdb
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.csprojAssemblyReference.cache
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.csproj.CoreCompileInputs.cache
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.RazorAssemblyInfo.cache
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.RazorAssemblyInfo.cs
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.AssemblyInfoInputs.cache
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.AssemblyInfo.cs
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.RazorTargetAssemblyInfo.cache
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.dll
+C:\Users\muell\TFTStats\obj\Debug\netcoreapp2.2\TFTStats.pdb
