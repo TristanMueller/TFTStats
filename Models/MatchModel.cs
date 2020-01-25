@@ -124,7 +124,7 @@ namespace TFTStats.Models
                         Match challengerMatch = Newtonsoft.Json.JsonConvert.DeserializeObject<Match>(response);
                         if(InsertMatch(challengerMatch).isSuccess == false)
                         {
-                            
+                            System.Threading.Thread.Sleep(60000);
                         }
                     }
                 }
