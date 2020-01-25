@@ -36,7 +36,7 @@ namespace TFTStats
             private IMongoDatabase db;
             public MongroCrud(string database)
             {
-                var client = new MongoClient("mongodb+srv://TristanM:casey123@cluster0-qkz5v.azure.mongodb.net/test?retryWrites=true&w=majority");
+                var client = new MongoClient("mongodb+srv://TristanM:<password>@cluster0-qkz5v.azure.mongodb.net/test?retryWrites=true&w=majority");
                 db = client.GetDatabase(database);
                 db.CreateCollection("Matches");
                 var collection = db.GetCollection<person>("Matches");
