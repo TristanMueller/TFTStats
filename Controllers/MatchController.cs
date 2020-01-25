@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +7,17 @@ using TFTStats.Models;
 
 namespace TFTStats.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class MatchController : ControllerBase
     {
         public MongoAccessModel _mongoAccessModel { get; set; }
-        public ValuesController(MongoAccessModel mongoAccessModel)
+        public MatchController(MongoAccessModel mongoAccessModel)
         {
             _mongoAccessModel = mongoAccessModel;
         }
         // GET api/values
         [HttpGet]
+        [Route("api/[controller]/PopulateMatches")]
         public CommandResult PopulateMatches()
         {                
             var matchFunction = new MatchFunction(_mongoAccessModel);
@@ -25,29 +25,18 @@ namespace TFTStats.Controllers
         }
 
         [HttpGet]
-        [Route("/getbymatch")]
-        public QueryResult GetMatch()
+        [Route("api/[controller]/GetMatchById")]
+        public QueryResult GetMatch(string match_id)
         {
             var matchFunction = new MatchFunction(_mongoAccessModel);
-            return matchFunction.GetMatch("");
+            return matchFunction.GetMatch(match_id);
         }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet]
+        [Route("api/[controller]/PurgeMatches")]
+        public CommandResult PurgeMatches()
         {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var matchFunction = new MatchFunction(_mongoAccessModel);
+            return matchFunction.PurgeMatchCollection();
         }
     }
 }

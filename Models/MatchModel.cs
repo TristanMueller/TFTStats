@@ -100,7 +100,7 @@ namespace TFTStats.Models
         public QueryResult GetMatch(string match_id)
         {
             var queryResult = new QueryResult();
-            var filter = Builders<Match>.Filter.Eq("metadata.match_id", "NA1_3270573449");
+            var filter = Builders<Match>.Filter.Eq("metadata.match_id", match_id);
             queryResult.result = _mongoAccessModel._MatchCollection.Find(filter).ToList();
             queryResult.isSuccess = true;
             return queryResult;
@@ -122,11 +122,7 @@ namespace TFTStats.Models
                     {
                         response = HttpRequestHelper.Get("https://americas.api.riotgames.com/tft/match/v1/matches/" + match + "?api_key=" + _leagueAPIKey);
                         Match challengerMatch = Newtonsoft.Json.JsonConvert.DeserializeObject<Match>(response);
-                        if(InsertMatch(challengerMatch).isSuccess == false)
-                        {
-                            System.Threading.Thread.Sleep(60000);
-                            InsertMatch(challengerMatch);
-                        }
+                        InsertMatch(challengerMatch);
                     }
                 }
                 CommandResult.isSuccess = true;
@@ -135,6 +131,21 @@ namespace TFTStats.Models
             {
                 CommandResult.message = ex.ToString();
                 CommandResult.isSuccess = false;
+            }
+            return CommandResult;
+        }
+        public CommandResult PurgeMatchCollection()
+        {
+            var CommandResult = new CommandResult();
+            try
+            {
+                _mongoAccessModel._MatchCollection.DeleteMany(Builders<Match>.Filter.SizeLte("metadata",0));
+                CommandResult.isSuccess = true;
+            }
+            catch(Exception ex)
+            {
+                CommandResult.isSuccess = false;
+                CommandResult.message = ex.ToString();
             }
             return CommandResult;
         }
