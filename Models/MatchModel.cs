@@ -125,6 +125,7 @@ namespace TFTStats.Models
                         if(InsertMatch(challengerMatch).isSuccess == false)
                         {
                             System.Threading.Thread.Sleep(60000);
+                            InsertMatch(challengerMatch);
                         }
                     }
                 }
