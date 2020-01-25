@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 
 namespace TFTStats.Models
 {
     public class Match
     {
+        [BsonId]
+        public ObjectId _id {get;set;}
         public Info info { get; set; }
         public Metadata metadata { get; set; }
     }
@@ -88,6 +93,14 @@ namespace TFTStats.Models
 
             return result;
         
+        }
+        public QueryResult GetMatch(string match_id)
+        {
+            var queryResult = new QueryResult();
+            var filter = Builders<Match>.Filter.Eq("metadata.match_id", "NA1_3270573449");
+            queryResult.result = _mongoAccessModel._MatchCollection.Find(filter).ToList();
+            queryResult.isSuccess = true;
+            return queryResult;
         }
     }
 }

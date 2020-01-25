@@ -1263,11 +1263,12 @@ namespace TFTStats.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet]
+        [Route("/getbymatch")]
+        public QueryResult GetMatch()
         {
-            return "value";
+            var matchFunction = new MatchFunction(_mongoAccessModel);
+            return matchFunction.GetMatch("");
         }
 
         // POST api/values
